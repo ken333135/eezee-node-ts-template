@@ -1,0 +1,11 @@
+{
+    "presets": [
+        "@babel/typescript"
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/proposal-class-properties",
+        "@babel/proposal-object-rest-spread"
+    ]
+}

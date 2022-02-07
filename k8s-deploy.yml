@@ -1,0 +1,45 @@
+# TODO - FIGURE OUT NAMESPACE
+# ---
+# # ------ NAMESPACES ------
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: "{NAMESPACE}"
+# ------ DEPLOYMENTS ------
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{NAMESPACE}-deployment"
+  labels:
+    app: "{NAMESPACE}"
+spec:
+  replicas: {K8S_REPLICAS}
+  selector:
+    matchLabels:
+      app: "{NAMESPACE}"
+  template:
+    metadata:
+      labels:
+        app: "{NAMESPACE}"
+        buildNumber: "{BUILD_NUMBER}"
+    spec:
+      containers:
+        - name: "{NAMESPACE}"
+          image: asia.gcr.io/eezee-client/{PROJECT_ID}:{DOCKER_IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+---
+# ------ SERVICEs ------
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{NAMESPACE}-lb"
+spec:
+  type: LoadBalancer
+  selector:
+    app: "{NAMESPACE}"
+  ports:
+    - port: 8080
+      targetPort: 8080
